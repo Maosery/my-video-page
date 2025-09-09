@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>教师节快乐</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: url('https://maosery-1257301643.cos.ap-beijing.myqcloud.com/2025%E6%95%99%E5%B8%88%E8%8A%82%20tiny.jpg') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+        
+        .play-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 28px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s ease;
+            margin-top: -5vh; 
+        }
+        
+        .play-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+        
+        .play-btn:active {
+            transform: scale(0.95);
+        }
+        
+        .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(167, 119, 227, 0.4);
+            animation: pulse 2s infinite;
+            z-index: -1;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            70% {
+                transform: scale(1.5);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+        
+        /* 视频播放器样式 */
+        .video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .video-player {
+            width: 90%;
+            max-width: 800px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.6);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            color: white;
+            font-size: 30px;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.5);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            transform: rotate(90deg);
+            background: rgba(255, 0, 0, 0.7);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="play-btn" id="playBtn">
+            <i class="fas fa-play"></i>
+            <div class="pulse"></div>
+        </div>
+    </div>
+
+    <!-- 视频播放器容器 -->
+    <div class="video-container" id="videoContainer">
+        <div class="close-btn" id="closeBtn">
+            <i class="fas fa-times"></i>
+        </div>
+        <video class="video-player" id="videoPlayer" controls>
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-tree-with-yellow-flowers-1173-large.mp4" type="video/mp4">
+            您的浏览器不支持视频播放
+        </video>
+    </div>
+
+    <script>
+        const playBtn = document.getElementById('playBtn');
+        const videoContainer = document.getElementById('videoContainer');
+        const videoPlayer = document.getElementById('videoPlayer');
+        const closeBtn = document.getElementById('closeBtn');
+        const icon = playBtn.querySelector('i');
+        
+        // 点击播放按钮显示视频
+        playBtn.addEventListener('click', function() {
+            videoContainer.style.display = 'flex';
+            videoPlayer.play();
+        });
+        
+        // 点击关闭按钮隐藏视频
+        closeBtn.addEventListener('click', function() {
+            videoContainer.style.display = 'none';
+            videoPlayer.pause();
+            videoPlayer.currentTime = 0;
+        });
+        
+        // 点击视频容器外部也关闭视频
+        videoContainer.addEventListener('click', function(e) {
+            if (e.target === videoContainer) {
+                videoContainer.style.display = 'none';
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+            }
+        });
+        
+        // 视频结束时重置
+        videoPlayer.addEventListener('ended', function() {
+            videoContainer.style.display = 'none';
+            videoPlayer.currentTime = 0;
+        });
+    </script>
+</body>
+</html>
